@@ -18,14 +18,7 @@ function calculateTotal(products) {
     .reduce((total, product) => total + product.price, 0);
 }
 
-// Функція для оновлення тексту кнопки
-export function updateCartButtonText(productId) {
-  const addToCartBtn = document.querySelector('.modal-product__btn--cart');
-  if (addToCartBtn) {
-    const isInCart = cartItems.includes(productId);
-    addToCartBtn.textContent = isInCart ? 'Remove from cart' : 'Add to cart';
-  }
-}
+
 
 // Функція для додавання/видалення товарів з кошика
 export function toggleCartItem(productId) {
