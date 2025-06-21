@@ -1,5 +1,6 @@
 //Функцію для створення, рендеру або видалення розмітки
-import {getCategoriesFromApi, getProducts} from products-api.js
+import {getCategoriesFromApi, getProducts} from "./products-api.js"
+import {refs} from "./refs.js"
 
 export const markupCategories = categories=> {
     return categories
@@ -35,9 +36,51 @@ export const createProductMarkup = products => {
   
 export const renderProductMarkup = async () => {
     const productsArr = await getProducts();
-    refs.productsList.insertAdjacentHTML('beforeend',markupCategories(productsArr))
+    refs.productList.insertAdjacentHTML('beforeend',createProductMarkup(productsArr))
 }
    
 
 
+
+export const createModalProductMarkup = product => {
+    const {
+        id,
+        thumbnail,
+        title,
+        description,
+        price,
+        tags = [], 
+        shippingInformation = "Free shipping", 
+        returnPolicy = "30 days return" 
+    } = product;
+
+    const tagMarkup = tags.map(tag => `<li>${tag}</li>`).join('');
+
+    return `
+        <img class="modal-product__img" src="${thumbnail}" alt="${title}" />
+        <div class="modal-product__content">
+          <p class="modal-product__title">${title}</p>
+          ${tags.length ? `<ul class="modal-product__tags">${tagMarkup}</ul>` : ''}
+          <p class="modal-product__description">${description}</p>
+          <p class="modal-product__shipping-information">Shipping: ${shippingInformation}</p>
+          <p class="modal-product__return-policy">Return Policy: ${returnPolicy}</p>
+          <p class="modal-product__price">Price: $${price}</p>
+          <div class="modal-product__buttons">
+            <button class="modal-product__wishlist-btn" type="button" data-id="${id}">
+              Add to Wishlist
+            </button>
+            <button class="modal-product__cart-btn" type="button" data-id="${id}">
+              Add to Cart
+            </button>
+          </div>
+        </div>`;
+};
+  
+export const renderModalProductMarkup  = async (productId) => {
+        const product = await getProductById(productId);
+        const markup = createModalProductMarkup(product);
+        refs.modalProd.innerHTML = markup;        
+
+}
+   
 
