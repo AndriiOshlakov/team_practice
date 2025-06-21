@@ -18,28 +18,6 @@ function calculateTotal(products) {
     .reduce((total, product) => total + product.price, 0);
 }
 
-
-
-// Функція для додавання/видалення товарів з кошика
-export function toggleCartItem(productId) {
-  const index = cartItems.indexOf(productId);
-
-  if (index === -1) {
-    // Додати до кошика
-    cartItems.push(productId);
-  } else {
-    // Видалити з кошика
-    cartItems.splice(index, 1);
-  }
-
-  // Оновити localStorage
-  localStorage.setItem('cart', JSON.stringify(cartItems));
-
-  // Оновити UI
-  updateCartCount();
-  updateCartButtonText(productId);
-}
-
 // Функція для рендерингу продуктів у кошику
 export function renderCartProducts(products) {
   const productsList = document.querySelector('.products');
