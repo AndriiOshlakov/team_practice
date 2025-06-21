@@ -17,7 +17,9 @@ export const refs = {
     cartLink: document.querySelector('.nav__link[href="./cart.html"]'),
     wishlistLink: document.querySelector('.nav__link[href="./wishlist.html"]'),
 
-
-
+    modalCloseBtn: document.querySelector(".modal__close-btn"),
+    modalProd: document.querySelector(".modal-product"),
+    modalProdWishBtn: document.querySelector(".modal-product__btn--wishlist"),
+    modalProdCartBtn: document.querySelector(".modal-product__btn--cart"),
 
 };
