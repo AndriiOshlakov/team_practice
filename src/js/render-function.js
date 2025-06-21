@@ -1,27 +1,31 @@
 //Функцію для створення, рендеру або видалення розмітки
-import {getCategoriesFromApi, getProducts} from "./products-api.js"
-import {refs} from "./refs.js"
+import { getCategoriesFromApi, getProducts } from './products-api.js';
+import { refs } from './refs.js';
 
-export const markupCategories = categories=> {
-    return categories
-        .map(
-            ({ name }) => `<li class="categories__item">
+export const markupCategories = categories => {
+  return categories
+    .map(
+      ({ name }) => `<li class="categories__item">
    <button class="categories__btn" type="button">${name}</button>
  </li>
 `
-        ).join("");
-}
+    )
+    .join('');
+};
 
 export const renderCategories = async () => {
-    const categoriesArr = await getCategoriesFromApi();
-    refs.categoryList.insertAdjacentHTML('beforeend',markupCategories(categoriesArr))
-}
-
+  const categoriesArr = await getCategoriesFromApi();
+  categoriesArr.unshift({ name: 'All' });
+  refs.categoryList.insertAdjacentHTML(
+    'beforeend',
+    markupCategories(categoriesArr)
+  );
+};
 
 export const createProductMarkup = products => {
-    return products
-      .map(
-        ({id,thumbnail,title,brand,category,price}) => `
+  return products
+    .map(
+      ({ id, thumbnail, title, brand, category, price }) => `
         <li class="products__item" data-id="${id}">
           <img class="products__image" src="${thumbnail}" alt="${title}"/>
           <p class="products__title">${title}</p>
@@ -30,37 +34,41 @@ export const createProductMarkup = products => {
           <p class="products__price">Price: $${price}</p>
         </li>
       `
-      )
-      .join('');
+    )
+    .join('');
 };
-  
-export const renderProductMarkup = async () => {
-    const productsArr = await getProducts();
-    refs.productList.insertAdjacentHTML('beforeend',createProductMarkup(productsArr))
-}
-   
 
-
+export const renderProductMarkup = async currentPage => {
+  const { products } = await getProducts(currentPage);
+  refs.productList.insertAdjacentHTML(
+    'beforeend',
+    createProductMarkup(products)
+  );
+};
 
 export const createModalProductMarkup = product => {
-    const {
-        id,
-        thumbnail,
-        title,
-        description,
-        price,
-        tags = [], 
-        shippingInformation = "Free shipping", 
-        returnPolicy = "30 days return" 
-    } = product;
+  const {
+    id,
+    thumbnail,
+    title,
+    description,
+    price,
+    tags = [],
+    shippingInformation = 'Free shipping',
+    returnPolicy = '30 days return',
+  } = product;
 
-    const tagMarkup = tags.map(tag => `<li>${tag}</li>`).join('');
+  const tagMarkup = tags.map(tag => `<li>${tag}</li>`).join('');
 
-    return `
+  return `
         <img class="modal-product__img" src="${thumbnail}" alt="${title}" />
         <div class="modal-product__content">
           <p class="modal-product__title">${title}</p>
-          ${tags.length ? `<ul class="modal-product__tags">${tagMarkup}</ul>` : ''}
+          ${
+            tags.length
+              ? `<ul class="modal-product__tags">${tagMarkup}</ul>`
+              : ''
+          }
           <p class="modal-product__description">${description}</p>
           <p class="modal-product__shipping-information">Shipping: ${shippingInformation}</p>
           <p class="modal-product__return-policy">Return Policy: ${returnPolicy}</p>
@@ -75,12 +83,9 @@ export const createModalProductMarkup = product => {
           </div>
         </div>`;
 };
-  
-export const renderModalProductMarkup  = async (productId) => {
-        const product = await getProductById(productId);
-        const markup = createModalProductMarkup(product);
-        refs.modalProd.innerHTML = markup;        
 
-}
-   
-
+export const renderModalProductMarkup = async productId => {
+  const product = await getProductById(productId);
+  const markup = createModalProductMarkup(product);
+  refs.modalProd.innerHTML = markup;
+};

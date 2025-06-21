@@ -6,7 +6,7 @@ axios.defaults.baseURL = 'https://dummyjson.com';
 
 export async function getCategoriesFromApi() {
   try {
-    const { data } = await axios('/products');
+    const { data } = await axios('/products/categories');
 
     return data;
   } catch (error) {
