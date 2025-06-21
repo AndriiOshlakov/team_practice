@@ -11,6 +11,13 @@ export function updateCartCount() {
   }
 }
 
+// Функція для підрахунку загальної вартості
+function calculateTotal(products) {
+  return products
+    .filter(product => cartItems.includes(product.id))
+    .reduce((total, product) => total + product.price, 0);
+}
+
 // Функція для оновлення тексту кнопки
 export function updateCartButtonText(productId) {
   const addToCartBtn = document.querySelector('.modal-product__btn--cart');
@@ -43,12 +50,28 @@ export function toggleCartItem(productId) {
 // Функція для рендерингу продуктів у кошику
 export function renderCartProducts(products) {
   const productsList = document.querySelector('.products');
+  const itemsCount = document.querySelector('[data-count]');
+  const totalPrice = document.querySelector('[data-price]');
+  const buyButton = document.querySelector('.cart-summary__btn');
 
   if (!productsList) return;
 
   const cartProducts = products.filter(product =>
     cartItems.includes(product.id)
   );
+
+  if (cartProducts.length === 0) {
+    productsList.innerHTML = '';
+
+    document.querySelector('.not-found').style.display = 'block';
+
+    if (itemsCount) itemsCount.textContent = '0';
+    if (totalPrice) totalPrice.textContent = '$0';
+    if (buyButton) buyButton.disabled = true;
+    return;
+  }
+
+  document.querySelector('.not-found').style.display = 'none';
 
   const markup = cartProducts
     .map(
@@ -67,6 +90,33 @@ export function renderCartProducts(products) {
     .join('');
 
   productsList.innerHTML = markup;
+}
+
+const total = calculateTotal(products);
+if (itemsCount) itemsCount.textContent = cartProducts.length;
+if (totalPrice) totalPrice.textContent = `$${total}`;
+if (buyButton) buyButton.disabled = false;
+
+export function updateCartButtonText(productId) {
+  const addToCartBtn = document.querySelector('.modal-product__btn--cart');
+  if (addToCartBtn) {
+    const isInCart = cartItems.includes(productId);
+    addToCartBtn.textContent = isInCart ? 'Remove from cart' : 'Add to cart';
+  }
+}
+
+export function toggleCartItem(productId) {
+  const index = cartItems.indexOf(productId);
+
+  if (index === -1) {
+    cartItems.push(productId);
+  } else {
+    cartItems.splice(index, 1);
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cartItems));
+  updateCartCount();
+  updateCartButtonText(productId);
 }
 
 // Event listener кнопки модалки
