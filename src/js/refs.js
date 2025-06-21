@@ -3,5 +3,21 @@
 export const refs = {
     categoryList: document.querySelector(".categories"),
     productList: document.querySelector(".products"),
+    cartList: document.querySelector(".cart-summary__list"),
+
     notFound: document.querySelector(".not-found"),
+
+    searchForm: document.querySelector(".search-form"),
+    searchFormInput: document.querySelector(".search-form__input"),
+    searchFormClearBtn: document.querySelector(".search-form__btn-clear"),
+    searchFormBtn: document.querySelector(".search-form__btn"),
+
+    navList: document.querySelector(".nav__list"),
+    homeLink: document.querySelector('.nav__link[href="./index.html"]'),
+    cartLink: document.querySelector('.nav__link[href="./cart.html"]'),
+    wishlistLink: document.querySelector('.nav__link[href="./wishlist.html"]'),
+
+
+
+
 };
