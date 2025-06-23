@@ -1,1 +1,1 @@
-{"version":3,"file":"wishlist.js","sources":[],"sourcesContent":[],"names":[],"mappings":""}
+{"version":3,"file":"wishlist.js","sources":["../src/wishlist.js"],"sourcesContent":["//Логіка сторінки Wishlist\nimport { initTheme, btnTheme } from './js/helpers.js';\n\ninitTheme();\n\ndocument.querySelector('.theme-btn')?.addEventListener('click', btnTheme);\n"],"names":["initTheme","_a","btnTheme"],"mappings":"wDAGAA,EAAS,SAETC,EAAA,SAAS,cAAc,YAAY,IAAnC,MAAAA,EAAsC,iBAAiB,QAASC"}
