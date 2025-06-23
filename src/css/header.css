@@ -78,3 +78,35 @@
     color: #fff;
   }
 }
+
+
+.theme-btn {
+  cursor: pointer;
+  border-radius: 50px;
+  width: 50px;
+  height: 25px;
+  border: none;
+  background-color: #ff6b0a;
+  font-size: 10px;
+  line-height: 1.2;
+  color: #fff;
+}
+
+.theme-btn:hover {
+  transition: 200ms ease-in;
+  background-color: #fd9222;
+}
+
+html.dark {
+  background-color: #111;
+  color: #e0e0e0;
+}
+
+html.dark .theme-btn {
+  background-color: #444;
+  color: #111;
+}
+
+html.dark .theme-btn:hover {
+  background-color: #666;
+}

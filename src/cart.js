@@ -1,5 +1,12 @@
 //Логіка сторінки Cart
 
+import { initTheme, btnTheme } from './js/helpers.js';
+
+initTheme();
+
+document.querySelector('.theme-btn')?.addEventListener('click', btnTheme);
+
+
 // Ініціалізація масиву кошика з localStorage або пустого масиву
 export let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
 
